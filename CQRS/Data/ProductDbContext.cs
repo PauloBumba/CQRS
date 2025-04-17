@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CQRS.Data
 {
-    public class ProdutoDbContext : DbContext
+    public class ProductDbContext : DbContext
     {
-        public ProdutoDbContext ( DbContextOptions <ProdutoDbContext> options): base(options) 
+        public ProductDbContext ( DbContextOptions <ProductDbContext> options): base(options) 
         {
 
         }

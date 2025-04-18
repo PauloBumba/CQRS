@@ -3,35 +3,38 @@ using CQRS.CommandHandle;
 using CQRS.Models;
 using CQRS.Query;
 using CQRS.QueryHandle;
+using MediatR;
 
 namespace CQRS.Services
 {
     public class Productservice : IProductService
     {
+        private readonly IMediator _mediator;
         private readonly CreateProductHandler _createProduct;
         private readonly GetProductAllHandler _handler;
         private readonly GetProductByIdHandler _getProductById;
         private readonly UpdaterProductHandler _updaterProduct;
         private readonly DeleteProductHandler _deleteProduct;
-        public Productservice( CreateProductHandler createProduct , GetProductAllHandler handler , GetProductByIdHandler  getProductById , UpdaterProductHandler updaterProduct , DeleteProductHandler deleteProduct)
+        public Productservice( CreateProductHandler createProduct , GetProductAllHandler handler , GetProductByIdHandler  getProductById , UpdaterProductHandler updaterProduct , DeleteProductHandler deleteProduct,  IMediator mediator)
         {
             _createProduct = createProduct;
             _handler = handler;
             _getProductById = getProductById;
             _updaterProduct = updaterProduct;
             _deleteProduct = deleteProduct;
+            _mediator = mediator;
         }
-        public async Task<Envelop<Product>> CreateProduct(CreateProductCommand command)
+        public async Task<Envelop<Product>> CreateProduct(CreateProductCommand command )
         {
-           var create=  await _createProduct.Handle(command);
-           
+            var create = await _mediator.Send(command);
+
             if (create == null) 
             {
                 return new Envelop<Product>
                 {
                     Data = null,
                     isSucess = false,
-                    Message = "Erro ao cadastrar o usuario "
+                    Message = "Erro ao criar Produto "
                 };
             }
 
@@ -39,7 +42,7 @@ namespace CQRS.Services
             {
                
                 isSucess = true,
-                Message = "Usuario Criado com sucesso",
+                Message = "Produto criado com sucesso",
                 Data = create,
             };
             

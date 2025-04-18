@@ -19,7 +19,7 @@ namespace CQRS.CommandHandle
         public async Task <Product> Handle(UpdateProoductCommand command)
         {
             var product = _mapper.Map<Product>(command);
-
+            if (product == null) { return null; }
             await _repository.UpdateAsync(product);
             return product;
         }

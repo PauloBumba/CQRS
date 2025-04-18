@@ -12,6 +12,8 @@ using FluentValidation.AspNetCore;
 
 using CQRS.Command;
 using CQRS.Mappings;
+using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +40,14 @@ builder.Services.AddScoped<UpdaterProductHandler>();
 builder.Services.AddScoped<GetProductByIdHandler>();
 builder.Services.AddScoped<GetProductAllHandler>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+;
+
+
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()); // Registra os Handlers do mesmo assembly
+});
 
 
 // Configuração do Swagger

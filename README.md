@@ -38,7 +38,7 @@ Configura a aplicação, incluindo a injeção de dependência, serviços e pipe
 
 ## Tecnologias Utilizadas
 
-- **.NET 6/7**: Framework para o desenvolvimento da aplicação.
+- **.NET 8/9**: Framework para o desenvolvimento da aplicação.
 - **MediatR**: Biblioteca para implementar o padrão CQRS.
 - **AutoMapper**: Biblioteca para mapeamento entre objetos.
 - **FluentValidation**: Biblioteca para validação de comandos e dados.

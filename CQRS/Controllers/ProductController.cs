@@ -1,5 +1,7 @@
 ﻿using CQRS.Command;
+using CQRS.Query;
 using CQRS.Services;
+using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +12,13 @@ namespace CQRS.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productservice;
-
-        public ProductController(IProductService productservice)
+        private readonly IValidator<CreateProductCommand> _validatorCreateProduct;
+        private readonly IValidator<UpdateProoductCommand> _validatorUpdateProduct;
+        public ProductController(IProductService productservice , IValidator <CreateProductCommand > validateCreateProduct , IValidator <UpdateProoductCommand>  validateUpdateProduct)
         {
             _productservice = productservice;
+            _validatorCreateProduct = validateCreateProduct;
+            _validatorUpdateProduct = validateUpdateProduct;
         }
 
         [HttpPost("Create")]
@@ -21,9 +26,10 @@ namespace CQRS.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
+                var validate= await _validatorCreateProduct.ValidateAsync(command);
+                if (!validate.IsValid)
                 {
-                    return BadRequest(ModelState);
+                    return BadRequest(validate.Errors);
                 }
                 var product = await _productservice.CreateProduct(command);
                 return Ok(new { product });
@@ -35,7 +41,24 @@ namespace CQRS.Controllers
             }
 
         }
+        [HttpGet("readId")]
+        public async Task<IActionResult> ReadProductId([FromQuery] GetProdutoByIdQuery query)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
 
+                var ReadId = await _productservice.GetProductById(query);
+                return Ok(new { ReadId });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
         [HttpGet("read")]
         public async Task<IActionResult> ReadProduct()
         {
@@ -50,6 +73,43 @@ namespace CQRS.Controllers
                 return Ok(new {Read});
             }
             catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateProduct(UpdateProoductCommand command)
+        {
+            try
+            {
+                var validate = await _validatorUpdateProduct.ValidateAsync(command);
+                if (!validate.IsValid)
+                {
+                    return BadRequest(validate.Errors);
+                }
+                var update =await _productservice.UpdateProduct(command);
+                return Ok(new {update});
+            }
+            catch (Exception ex) 
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpDelete("delete")]
+        public async Task<IActionResult> DeleteProduto( DeleteProductCommand command)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var delete =  await _productservice.DeleteProduct(command);
+                return Ok(new {delete});
+            }
+
+            catch(Exception ex)
             {
                 return BadRequest(ex);
             }

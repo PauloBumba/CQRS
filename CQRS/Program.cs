@@ -6,6 +6,12 @@ using CQRS.Reposiotry;
 using CQRS.Repository;
 using CQRS.Services;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+
+using CQRS.Command;
+using CQRS.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +21,14 @@ builder.Services.AddDbContext<ProductDbContext>(options =>
 );
 
 // Adiciona os serviços necessários à injeção de dependências
-builder.Services.AddControllersWithViews();
+
+
+builder.Services.AddControllersWithViews()
+    .AddFluentValidation(fv =>
+    {
+        fv.RegisterValidatorsFromAssembly(typeof(Program).Assembly);
+    });
+
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, Productservice>();
@@ -24,6 +37,8 @@ builder.Services.AddScoped<DeleteProductHandler>();
 builder.Services.AddScoped<UpdaterProductHandler>();
 builder.Services.AddScoped<GetProductByIdHandler>();
 builder.Services.AddScoped<GetProductAllHandler>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 
 // Configuração do Swagger
 builder.Services.AddSwaggerGen();

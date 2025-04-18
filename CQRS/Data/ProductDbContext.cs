@@ -10,6 +10,6 @@ namespace CQRS.Data
 
         }
 
-        public DbSet <Product> produtct { get; set; }
+        public DbSet <Product> product { get; set; }
     }
 }

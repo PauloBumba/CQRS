@@ -3,6 +3,7 @@ using CQRS.Data;
 using CQRS.Models;
 using CQRS.Query;
 using CQRS.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace CQRS.Reposiotry
 {
@@ -18,30 +19,38 @@ namespace CQRS.Reposiotry
 
         public async Task<Product> CreateAsync(Product product)
         {
-             await _Context.produtct.AddAsync(product);
-              await _Context.SaveChangesAsync();
+             await _Context.product.AddAsync(product);
+             await _Context.SaveChangesAsync();
+             return product;
+        }
+
+        public async Task<Product?> DeleteAsync(int id)
+        {
+            var product = await _Context.product.FindAsync(id);
+            if (product == null) return null;
+
+            _Context.product.Remove(product);
+            await _Context.SaveChangesAsync();
+
             return product;
-
         }
 
-        public Task DeleteAsync(Product product)
+
+        public async Task<List<Product>> GetAllAsync()
         {
-            throw new NotImplementedException();
+           return await _Context.product.ToListAsync();
         }
 
-        public Task<List<Product>> GetAllAsync(Product product)
+        public async Task<Product?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _Context.product.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<Product> GetByIdAsync(Product product)
+        public async Task<Product> UpdateAsync(Product product)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Product> UpdateAsync(Product product)
-        {
-            throw new NotImplementedException();
+            _Context.product.Update(product);
+            await _Context.SaveChangesAsync();
+            return product;
         }
     }
 }

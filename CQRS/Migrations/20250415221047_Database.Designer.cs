@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CQRS.Migrations
 {
-    [DbContext(typeof(ProdutoDbContext))]
+    [DbContext(typeof(ProductDbContext))]
     [Migration("20250415221047_Database")]
     partial class Database
     {

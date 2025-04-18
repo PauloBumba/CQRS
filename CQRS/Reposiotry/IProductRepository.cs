@@ -6,14 +6,14 @@ namespace CQRS.Repository
 {
     public interface IProductRepository
     {
-        Task<List<Product>> GetAllAsync( Product product);  
+        Task<List<Product>> GetAllAsync();  
 
-        Task<Product> GetByIdAsync(Product product); 
+        Task<Product?> GetByIdAsync(int id); 
 
         Task<Product> CreateAsync(Product product); 
 
         Task<Product> UpdateAsync(Product product);  
 
-        Task DeleteAsync(Product product);  
+        Task <Product?> DeleteAsync(int id);  
     }
 }

@@ -1,61 +1,13 @@
-# CQRS - Command Query Responsibility Segregation
-
-Este é um exemplo de um projeto implementando o padrão CQRS (Command Query Responsibility Segregation) com .NET, MediatR, AutoMapper, FluentValidation e Entity Framework. O projeto segue a arquitetura Clean Architecture e separa as operações de leitura e escrita em comandos e consultas distintas.
-
-## Estrutura do Projeto
-
-A estrutura do projeto segue os princípios do padrão CQRS e Clean Architecture. As principais pastas são:
-
-### 1. **Commands**
-Contém os comandos que representam as operações de escrita (alterações no estado do sistema). Cada comando é tratado por um manipulador (handler).
-
-### 2. **Queries**
-Contém as consultas, que representam operações de leitura. As consultas não alteram o estado do sistema, apenas buscam dados.
-
-### 3. **Handlers**
-Cada comando e consulta tem um manipulador (handler) correspondente, responsável por executar a lógica do comando ou consulta. Os handlers utilizam os repositórios para interagir com o banco de dados.
-
-### 4. **Repositories**
-Contém a lógica de interação com o banco de dados. O repositório encapsula as operações CRUD e é utilizado pelos manipuladores para acessar os dados.
-
-### 5. **Services**
-Serviços que contêm a lógica de negócios. Eles podem ser usados para orquestrar operações que envolvem vários comandos ou consultas.
-
-### 6. **Models**
-Contém as entidades que representam os dados do sistema, como `Product`, `User`, etc.
-
-### 7. **DTOs (Data Transfer Objects)**
-Objetos que são usados para transportar dados entre diferentes camadas do sistema. Por exemplo, um `ProductDto` pode ser retornado em vez de uma entidade `Product` diretamente.
-
-### 8. **Migrations**
-Contém as migrações do Entity Framework para gerenciar as alterações no banco de dados.
-
-### 9. **Controllers**
-Contém os controladores que expõem as rotas da API e fazem o trabalho de receber as requisições HTTP e chamar os manipuladores de comandos e consultas correspondentes.
-
-### 10. **Program.cs**
-Configura a aplicação, incluindo a injeção de dependência, serviços e pipelines de middleware.
-
-## Tecnologias Utilizadas
-
-- **.NET 8/9**: Framework para o desenvolvimento da aplicação.
-- **MediatR**: Biblioteca para implementar o padrão CQRS.
-- **AutoMapper**: Biblioteca para mapeamento entre objetos.
-- **FluentValidation**: Biblioteca para validação de comandos e dados.
-- **Entity Framework Core**: ORM para interagir com o banco de dados.
-- **SQL Server**: Banco de dados utilizado no exemplo.
-
-## Instalação
-
-### Pré-requisitos
-
-- .NET SDK 6 ou superior
-- SQL Server (ou qualquer outro banco de dados configurado no arquivo `appsettings.json`)
-
-### Passos para rodar o projeto
-
-1. **Clone o repositório**:
-
-   ```bash
-   git clone https://github.com/seu-usuario/seu-repositorio.git
-   cd seu-repositorio
+Estou trabalhando em um projeto de backend utilizando várias tecnologias modernas que ajudam a criar APIs mais eficientes e bem estruturadas. Vou compartilhar um pouco sobre as ferramentas que estou utilizando:
+✅ SOLID: Conjunto de princípios que garantem código mais organizado e fácil de manter. Cada princípio ajuda a melhorar a estrutura e a flexibilidade do código.
+✅ Envelope Pattern: Estrutura que organiza a resposta da API, incluindo dados, status de sucesso e mensagens de erro ou sucesso, garantindo consistência nas respostas.
+✅ CQRS + MediatR: Separação entre leitura e escrita de dados, onde MediatR facilita o envio e o gerenciamento de comandos e consultas, promovendo um design mais limpo e desacoplado.
+✅ AutoMapper: Ferramenta que simplifica a conversão entre objetos, mapeando automaticamente dados de um tipo para outro, como de um comando para uma entidade.
+✅ FluentValidation: Biblioteca para validar dados de forma simples e expressiva, garantindo que os dados de entrada estejam corretos antes de realizar qualquer operação.
+✅ Repository Pattern: Padrão que centraliza o acesso aos dados, facilitando a manutenção e a testabilidade do código, além de promover desacoplamento entre a lógica de negócios e o banco de dados.
+✅ Services Layer: Camada responsável pela lógica de negócios da aplicação, organizando e centralizando funcionalidades para que o controle de fluxo fique mais claro e modular.
+✅ SQL Server: Banco de dados relacional utilizado para armazenar os dados da aplicação, proporcionando alta performance e robustez.
+✅ ASP.NET Core: Framework poderoso para desenvolvimento de APIs, oferecendo alto desempenho, segurança e flexibilidade para construir soluções escaláveis e seguras.
+Esse projeto tem sido uma excelente oportunidade para aplicar esses conceitos e aprimorar minhas habilidades em desenvolvimento de APIs. 🚀
+Se você também está utilizando essas tecnologias ou quer aprender mais sobre elas, deixa um comentário ou me manda uma mensagem. Vamos compartilhar experiências e crescer juntos! 🙌
+hashtag#dotnet hashtag#aspnetcore hashtag#backend hashtag#api hashtag#cqrs hashtag#mediatr hashtag#automapper hashtag#fluentvalidation hashtag#solid hashtag#programming

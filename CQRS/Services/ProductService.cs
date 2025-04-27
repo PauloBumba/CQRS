@@ -50,7 +50,8 @@ namespace CQRS.Services
 
         public async Task<Envelop<Product>> DeleteProduct(DeleteProductCommand command)
         {
-             var delete = await _deleteProduct.Handle(command);
+             var delete = await _mediator.Send(command);
+
               if(delete == null)
               {
                 return new Envelop<Product>
@@ -70,32 +71,32 @@ namespace CQRS.Services
             };
         }
 
-        public async Task<Envelop<List<Product>>> GetProductAl()
+        public async Task<Envelop<List<Product>>> GetProductAl( GetProductAllQuery query)
         {
-             var readAll = await _handler.Handle();
-            if (readAll == null)
+            var products = await _mediator.Send(query);
+
+            if (products == null || !products.Any())
             {
                 return new Envelop<List<Product>>
                 {
                     Data = null,
                     isSucess = false,
-                    Message = "Não tem dados no banco de dados"
+                    Message = "Não há produtos cadastrados no banco de dados."
                 };
             }
 
             return new Envelop<List<Product>>
             {
-                Message = "Lista de Todos os Produto cadastro do banco de dados",
-                Data= readAll,
-                isSucess=true,
+                Data = products,
+                isSucess = true,
+                Message = "Lista de produtos carregada com sucesso."
             };
-
 
         }
 
         public async Task<Envelop<Product>> GetProductById(GetProdutoByIdQuery query)
         {
-            var get = await _getProductById.Handle(query);
+            var get = await _mediator.Send(query);
             if (get == null)
             {
                 return new Envelop<Product> { Data = null, isSucess = false, Message = "Id não cadastrado" };
@@ -110,7 +111,7 @@ namespace CQRS.Services
 
         public async Task<Envelop<Product>> UpdateProduct(UpdateProoductCommand command)
         {
-            var update = await _updaterProduct.Handle(command);
+            var update = await _mediator.Send(command);
             if (update == null)
             {
                 return new Envelop<Product>

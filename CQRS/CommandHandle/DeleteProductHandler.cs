@@ -2,26 +2,33 @@
 using CQRS.Command;
 using CQRS.Models;
 using CQRS.Repository;
+using MediatR;
 
 namespace CQRS.CommandHandle
 {
-    public class DeleteProductHandler
+    public class DeleteProductHandler : IRequestHandler<DeleteProductCommand , Product>
     {
        
         private readonly IProductRepository _repository;
+        private readonly IMapper _mapper;
+      
 
-        public DeleteProductHandler(IProductRepository repository )
+        public DeleteProductHandler(IProductRepository repository ,  IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
            
         }
 
-        public async Task<Product> Handle (DeleteProductCommand command)
+        public async Task<Product> Handle (DeleteProductCommand command , CancellationToken cancellationToken)
         {
+             var delete = _mapper.Map<Product>(command);
+
+            if (delete == null) return null;
+
+            await _repository.DeleteAsync(delete.Id);
+
            
-             var delete=  await _repository.DeleteAsync(command.ID);
-             if (delete == null) return null;
-            
             return delete;
         }
     }

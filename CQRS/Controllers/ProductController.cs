@@ -60,7 +60,7 @@ namespace CQRS.Controllers
             }
         }
         [HttpGet("read")]
-        public async Task<IActionResult> ReadProduct()
+        public async Task<IActionResult> ReadProduct([FromQuery] GetProductAllQuery query)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace CQRS.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var Read = await _productservice.GetProductAl();
+                var Read = await _productservice.GetProductAl(query);
                 return Ok(new {Read});
             }
             catch (Exception ex)
